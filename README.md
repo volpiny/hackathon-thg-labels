@@ -38,8 +38,9 @@ docker-compose up --build -d
 ```
 
 ### 2. Start Frontend UI
-Install dependencies and start the Angular development server from the root:
+Install dependencies and start the Angular development server from the frontend directory:
 ```bash
+cd frontend/label-manager-ui
 npm install
 npm run start
 ```
