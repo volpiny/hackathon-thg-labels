@@ -30,9 +30,23 @@ A robust solution for managing product labels with full version history, master/
 - **Security**: Custom SSL Truststore for VPN connectivity.
 
 ## 📖 Setup & Verification
-Run the system using Docker Compose:
+
+### 1. Start Infrastructure & Backend
+Run the backend and databases using Docker Compose from the root:
 ```bash
-docker-compose up --build
+docker-compose up --build -d
 ```
-Access the UI at `http://localhost:4200`.
-Check the `ARCH-AND-MAINTAINABILITY.md` for architectural details and codebase design.
+
+### 2. Start Frontend UI
+Install dependencies and start the Angular development server from the root:
+```bash
+npm install
+npm run start
+```
+
+### 3. Access the Application
+- **UI**: [http://localhost:4200](http://localhost:4200)
+- **Backend API**: [http://localhost:8080/api](http://localhost:8080/api)
+- **S3 Console (MinIO)**: [http://localhost:9001](http://localhost:9001) (Credentials: `minioadmin` / `minioadmin`)
+
+Check the [ARCH-AND-MAINTAINABILITY.md](file:///Users/volpiny/Desktop/thg-label-manager/ARCH-AND-MAINTAINABILITY.md) for architectural details and codebase design.
