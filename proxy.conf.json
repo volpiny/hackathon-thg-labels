@@ -1,0 +1,24 @@
+{
+  "/CatalogueService": {
+    "target": "https://catalogue-service.gslb.io.thehut.local",
+    "secure": false,
+    "changeOrigin": true,
+    "headers": {
+      "X-Organisation": "default",
+      "Authorization": "Bearer dummy-token-for-catalogue"
+    }
+  },
+  "/MilkyWay": {
+    "target": "https://milkyway.k8s.gslb.thehut.local",
+    "secure": false,
+    "changeOrigin": true,
+    "headers": {
+      "Authorization": "Bearer dummy-token-for-catalogue"
+    }
+  },
+  "/api": {
+    "target": "http://localhost:8080",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

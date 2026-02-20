@@ -1,0 +1,28 @@
+<div class="bulk-upload-container">
+    <h3>🚀 Bulk Upload Matcher</h3>
+    <p>Select multiple label PDFs. We will automatically match them to SKUs based on filenames (e.g., C-1_v2.pdf).</p>
+
+    <input type="file" multiple (change)="onFilesSelected($event)" accept="application/pdf">
+
+    <div class="matches-list" *ngIf="pendingFiles.length > 0">
+        <table>
+            <thead>
+                <tr>
+                    <th>File Name</th>
+                    <th>Extracted SKU</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pf of pendingFiles">
+                    <td>{{ pf.file.name }}</td>
+                    <td><input type="text" [(ngModel)]="pf.sku"></td>
+                    <td>{{ pf.status }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <button (click)="uploadAll()" [disabled]="uploading">
+            {{ uploading ? 'Processing...' : 'Upload All Matches' }}
+        </button>
+    </div>
+</div>

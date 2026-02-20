@@ -1,0 +1,94 @@
+<div class="container">
+  <h2>THG Label Manager</h2>
+
+  <app-dashboard></app-dashboard>
+
+  <!-- Search Panel -->
+  <div class="search-panel glass-card">
+    <h3 class="search-title">🔍 Product Discovery</h3>
+
+    <div class="search-bar-container">
+      <input type="text" class="search-input-main" [(ngModel)]="searchQuery"
+        placeholder="Enter SKU, Barcode, Title or Product ID…" (keyup.enter)="searchBySkuLocal()" />
+      <div class="search-actions">
+        <button class="btn-search action-btn" (click)="searchBySkuLocal()" [class.loading]="isLoadingLocal">
+          <span *ngIf="!isLoadingLocal">Search Local</span>
+          <span *ngIf="isLoadingLocal">Searching...</span>
+        </button>
+        <button class="btn-search action-btn secondary" (click)="searchByTitle()" [class.loading]="isLoadingTitle">
+          <span *ngIf="!isLoadingTitle">Catalogue (Title)</span>
+          <span *ngIf="isLoadingTitle">Searching...</span>
+        </button>
+        <button class="btn-search action-btn secondary" (click)="searchByBarcode()" [class.loading]="isLoadingBarcode">
+          <span *ngIf="!isLoadingBarcode">Catalogue (Barcode)</span>
+          <span *ngIf="isLoadingBarcode">Searching...</span>
+        </button>
+        <button class="btn-search action-btn secondary" (click)="searchById()" [class.loading]="isLoadingId">
+          <span *ngIf="!isLoadingId">Catalogue (ID)</span>
+          <span *ngIf="isLoadingId">Searching...</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Recent Searches -->
+    <div class="recent-searches" *ngIf="recentSearches.length > 0">
+      <span class="recent-label">Recent:</span>
+      <div class="recent-chips">
+        <span class="chip" *ngFor="let s of recentSearches" (click)="applyRecentSearch(s)">{{ s }}</span>
+      </div>
+    </div>
+
+    <!-- Production Operations toggle -->
+    <div class="ops-toggle">
+      <label class="toggle-label">
+        <span class="toggle-text">📦 Production Operations — Active Labels Only</span>
+        <input type="checkbox" [(ngModel)]="showOnlyActive" (change)="searchBySkuLocal()">
+        <span class="toggle-switch"></span>
+      </label>
+    </div>
+  </div>
+
+  <app-bulk-upload></app-bulk-upload>
+
+  <!-- Local results -->
+  <div class="local-results" *ngIf="localProducts.length > 0">
+    <h3>Local Products</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>SKU</th>
+          <th>Title</th>
+          <th>Type</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of localProducts">
+          <td>{{ p.sku }}</td>
+          <td>{{ p.title }}</td>
+          <td>{{ p.masterProduct ? 'Master' : 'Child' }}</td>
+          <td><button (click)="viewDetail(p.sku)">View Details</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Catalogue result -->
+  <div class="catalogue-result" *ngIf="catalogueProduct">
+    <h3>Catalogue Result</h3>
+    <div class="product-card">
+      <img [src]="productImage" *ngIf="productImage" style="width: 100px; border-radius: 8px;">
+      <p><strong>Title:</strong> {{ catalogueProduct.title || catalogueProduct.name }}</p>
+      <p><strong>SKU:</strong> {{ catalogueProduct.id || catalogueProduct.productId }}</p>
+      <button (click)="addToLabelManager()">Add to Label Manager</button>
+    </div>
+  </div>
+
+  <!-- Toast Notification Overlay -->
+  <div class="toast-container" *ngIf="isToastVisible">
+    <div class="toast" [class.error]="isErrorToast">
+      <span>{{ isErrorToast ? '❌' : '✅' }}</span>
+      {{ toastMessage }}
+    </div>
+  </div>
+</div>

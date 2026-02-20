@@ -1,0 +1,110 @@
+.search-panel {
+    margin: 24px 0;
+    padding: 32px;
+}
+
+.search-title {
+    margin: 0 0 24px;
+    font-size: 1.25rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.search-bar-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.search-input-main {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1.1rem !important;
+    padding: 16px 20px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.search-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.action-btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 12px !important;
+    font-size: 0.9rem !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.action-btn.secondary {
+    background: white !important;
+    color: var(--primary) !important;
+    border: 2px solid var(--primary) !important;
+    box-shadow: none !important;
+}
+
+.action-btn.secondary:hover {
+    background: #eff6ff !important;
+    transform: translateY(-2px);
+}
+
+/* Production ops toggle */
+.ops-toggle {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #f3f4f6;
+}
+
+.toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.toggle-text {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.toggle-label input[type="checkbox"] {
+    display: none;
+}
+
+.toggle-switch {
+    width: 44px;
+    height: 24px;
+    background: #e5e7eb;
+    border-radius: 12px;
+    position: relative;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+
+.toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.2s;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-label input:checked~.toggle-switch {
+    background: var(--primary);
+}
+
+.toggle-label input:checked~.toggle-switch::after {
+    transform: translateX(20px);
+}

@@ -1,0 +1,22 @@
+<div class="dashboard-container" *ngIf="stats">
+    <h1>Operational Readiness Dashboard</h1>
+
+    <div class="stats-grid">
+        <div class="stat-card readiness">
+            <h3>Overall Readiness</h3>
+            <div class="pie-container">
+                <span class="percentage">{{ stats.readinessPercentage | number:'1.0-0' }}%</span>
+            </div>
+            <p>{{ stats.readyProducts }} / {{ stats.totalProducts }} products have active labels</p>
+        </div>
+
+        <div class="stat-card distribution">
+            <h3>Category Distribution</h3>
+            <ul>
+                <li *ngFor="let entry of stats.categoryDistribution | keyvalue">
+                    <strong>{{ entry.key }}:</strong> {{ entry.value }} products
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

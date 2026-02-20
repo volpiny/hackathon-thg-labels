@@ -1,0 +1,151 @@
+<div class="container" *ngIf="product">
+  <button (click)="goBack()">Back to Search</button>
+  <h2>Product Details: {{ product.title }}</h2>
+
+  <div class="product-info">
+    <div class="image-col" *ngIf="productImage">
+      <img [src]="productImage" alt="Product Image">
+    </div>
+    <div class="details-col">
+      <div class="info-header">
+        <h4>Product Core Identity (Linked)</h4>
+        <div class="attr-row">
+          <label>SKU:</label>
+          <span class="value-text">{{ product.sku }}</span>
+        </div>
+        <div class="attr-row">
+          <label>Barcode:</label>
+          <span class="value-text">{{ product.barcode }}</span>
+        </div>
+        <div class="attr-row">
+          <label>Operating Level:</label>
+          <span class="badge active">{{ product.masterProduct ? 'MASTER' : 'CHILD' }}</span>
+        </div>
+      </div>
+
+      <div class="product-attributes">
+        <div class="attr-row">
+          <label>Category:</label>
+          <select [(ngModel)]="product.category">
+            <option value="Food">Food</option>
+            <option value="Supplement">Supplement</option>
+            <option value="Beauty">Beauty</option>
+            <option value="Healthcare">Healthcare</option>
+          </select>
+        </div>
+
+        <div class="attr-row">
+          <label>Type:</label>
+          <select [(ngModel)]="product.type">
+            <option value="Solid">Solid</option>
+            <option value="Liquid">Liquid</option>
+            <option value="Powder">Powder</option>
+            <option value="Capsule">Capsule</option>
+          </select>
+        </div>
+
+        <div class="attr-row">
+          <label>Market Territories:</label>
+          <div class="territory-grid">
+            <div *ngFor="let t of availableTerritories" class="territory-chip" [class.selected]="isTerritorySelected(t)"
+              (click)="toggleTerritory(t)">
+              {{ t }}
+            </div>
+          </div>
+        </div>
+
+        <button class="save-btn" (click)="saveProductAttributes()">Save Changes</button>
+      </div>
+
+      <div *ngIf="masterProduct" class="master-info-card">
+        <h4>🔗 Parent Hierarchy</h4>
+        <p><strong>Master SKU:</strong> {{ masterProduct.sku }}</p>
+        <p><strong>Master Title:</strong> {{ masterProduct.title }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="label-management" *ngIf="!product.masterProduct">
+    <h3>Label Management</h3>
+
+    <div class="upload-section">
+      <input type="file" (change)="onFileSelected($event)" accept=".pdf">
+      <button (click)="uploadLabel()" [disabled]="!selectedFile">Upload New PDF Label</button>
+    </div>
+
+    <div class="labels-list" *ngIf="labels.length > 0">
+      <h4>Version History</h4>
+      <button (click)="downloadAll()">Bulk Download All Labels (.zip)</button>
+      <table>
+        <thead>
+          <tr>
+            <th>Version</th>
+            <th>File Name</th>
+            <th>Uploaded At</th>
+            <th>Status</th>
+            <th>OCR Validation</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let label of labels">
+            <td>{{ label.version }}</td>
+            <td>{{ label.fileName }}</td>
+            <td>{{ label.createdAt | date:'short' }}</td>
+            <td>
+              <span class="badge" [class.active]="label.active">
+                {{ label.active ? 'ACTIVE' : 'INACTIVE' }}
+              </span>
+            </td>
+            <td>
+              <span class="badge" [class.matched]="label.skuMatched === true"
+                [class.mismatch]="label.skuMatched === false">
+                {{ label.skuMatched === true ? '✅ SKU Matched' : (label.skuMatched === false ? '❌ SKU Mismatch' :
+                'Pending') }}
+              </span>
+            </td>
+            <td>
+              <button (click)="previewLabel(label.id)">Preview</button>
+              <button (click)="deleteLabel(label.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PDF Preview Pane -->
+    <div class="preview-overlay" *ngIf="currentPreviewUrl" (click)="closePreview()">
+      <div class="preview-content" (click)="$event.stopPropagation()">
+        <div class="preview-header">
+          <h3>Label Preview</h3>
+          <button (click)="closePreview()">Close</button>
+        </div>
+        <iframe [src]="currentPreviewUrl | safe" width="100%" height="600px"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="product.masterProduct">
+    <p><em>Labels can only be managed on child products.</em></p>
+
+    <div *ngIf="childProducts.length > 0" class="child-links">
+      <h4>Child Products</h4>
+      <ul>
+        <li *ngFor="let child of childProducts">
+          <a [routerLink]="['/product', child.sku]">{{ child.title }} ({{ child.sku }})</a>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="childProducts.length === 0">
+      <p>This master product has no child products linked yet.</p>
+    </div>
+  </div>
+
+  <!-- Toast Notification Overlay -->
+  <div class="toast-container" *ngIf="isToastVisible">
+    <div class="toast" [class.error]="isErrorToast">
+      <span>{{ isErrorToast ? '❌' : '✅' }}</span>
+      {{ toastMessage }}
+    </div>
+  </div>
+</div>

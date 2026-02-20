@@ -1,0 +1,21 @@
+<div class="timeline-container">
+    <h3>📜 Audit Timeline</h3>
+    <div class="timeline">
+        <div class="timeline-item" *ngFor="let label of labels">
+            <div class="timeline-marker" [class.active]="label.active"></div>
+            <div class="timeline-content">
+                <div class="timeline-header">
+                    <span class="version">Version {{ label.version }}</span>
+                    <span class="date">{{ label.createdAt | date:'medium' }}</span>
+                </div>
+                <div class="timeline-body">
+                    <p><strong>{{ label.fileName }}</strong></p>
+                    <p class="creator">Uploaded by {{ label.createdBy }}</p>
+                    <span class="badge" [class.matched]="label.skuMatched">
+                        {{ label.skuMatched ? '✅ Verified' : '❌ Unverified' }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
