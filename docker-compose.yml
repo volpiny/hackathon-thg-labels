@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: label_manager
+    ports:
+      - "5432:5432"
+
+  storage:
+    image: minio/minio:RELEASE.2022-05-08T23-50-31Z
+    ports:
+      - "9000:9000" # API
+      - "9001:9001" # Console
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
+
+  backend:
+    build: ./backend/thg-label-management
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/label_manager
+      MINIO_ENDPOINT: http://storage:9000
+    depends_on:
+      - db
+      - storage
