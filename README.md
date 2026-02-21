@@ -16,7 +16,7 @@ A robust solution for managing product labels with full version history, master/
 - [x] **Bulk Operations**: High-performance ZIP generation for batch label downloads (100s of MBs).
 - [x] **Production Operations Mode**: Fast filtering to show only products with active, verified labels.
 
-### ⭐ Standard & Winning Enhancements
+### ⭐ Extra Enhancements
 - [x] **Smart OCR Validation**: Automated SKU verification inside uploaded PDF labels.
 - [x] **Operational Dashboard**: Real-time analytics on readiness levels and product distribution.
 - [x] **Interactive Preview**: In-app PDF viewer with glassmorphism styling.
@@ -34,7 +34,7 @@ A robust solution for managing product labels with full version history, master/
 ### 1. Start Infrastructure & Backend
 Run the backend and databases using Docker Compose from the root:
 ```bash
-docker-compose up --build -d
+sh start.sh 
 ```
 
 ### 2. Start Frontend UI
